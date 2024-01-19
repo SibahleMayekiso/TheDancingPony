@@ -7,28 +7,30 @@ class Rating extends Model {
     public rating!: number;
 }
 
-Rating.init({
-    userId: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: false,
-        references: {
-            model: 'users',
-            key: 'id'
+export function initRating() {
+    Rating.init({
+        userId: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            allowNull: false,
+            references: {
+                model: 'users',
+                key: 'id'
+            }
+        },
+        dishId: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            allowNull: false,
+            references: {
+                model: 'dishes',
+                key: 'id'
+            }
+        },
+        rating: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
         }
-    },
-    dishId: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: false,
-        references: {
-            model: 'dishes',
-            key: 'id'
-        }
-    },
-    rating: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    }
-}, {
-    tableName: 'ratings',
-    sequelize: sequelize,
-});
+    }, {
+        tableName: 'ratings',
+        sequelize: sequelize,
+    });
+}
