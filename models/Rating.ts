@@ -1,7 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../database/database";
 
-class Rating extends Model {
+export class Rating extends Model {
     public userId!: number;
     public dishId!: number;
     public rating!: number;
