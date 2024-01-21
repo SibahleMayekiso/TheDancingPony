@@ -5,9 +5,9 @@ import { Op } from "sequelize";
 
 export class CustomerController {
     static async searchDishes(req: Request, res: Response) {
-        const { query } = req.query;
+        const query = req.params.query;
 
-        const dishes = await Dish.findAll({ where: { name: { [Op.like]: `%${query}%` } } });
+        const dishes = await Dish.findAll({ where: { name: { [Op.iLike]: `%${query}%` } } });
         if (!dishes) {
             res.status(404).json({ message: 'No Dishes found' });
         }
