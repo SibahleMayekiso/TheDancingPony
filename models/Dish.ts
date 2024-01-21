@@ -1,7 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../database/database";
 
-class Dish extends Model {
+export class Dish extends Model {
     public id!: number;
     public name!: string;
     public description!: string;
