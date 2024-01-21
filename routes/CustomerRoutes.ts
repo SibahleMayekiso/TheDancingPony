@@ -4,7 +4,7 @@ import { CustomerController } from "../controllers/CustomerController";
 const customerRoutes = Router();
 
 customerRoutes.get('/dishes/search', CustomerController.searchDishes);
-customerRoutes.get('/dishes/:id', CustomerController.findDishById);
+customerRoutes.get('/dishes/:query', CustomerController.findDishById);
 customerRoutes.post('/dishes/:id/rate', CustomerController.rateDishById);
 
 export default customerRoutes;
