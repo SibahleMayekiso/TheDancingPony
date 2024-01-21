@@ -5,6 +5,7 @@ import { initDish } from './models/Dish';
 import { initRating } from './models/Rating';
 import userRoutes from './routes/UserRoutes'
 import adminRoutes from './routes/AdminRoutes'
+import customerRoutes from './routes/CustomerRoutes';
 
 dotenv.config();
 
@@ -17,7 +18,8 @@ initRating();
 
 app.use(express.json());
 app.use(userRoutes)
-app.use(adminRoutes)
+app.use('/admin', adminRoutes)
+app.use(customerRoutes)
 
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
