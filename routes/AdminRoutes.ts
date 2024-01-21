@@ -5,7 +5,7 @@ const adminRoutes = Router();
 
 adminRoutes.post('/dishes/create', AdminController.createNewDish)
 adminRoutes.get('/dishes/:id', AdminController.findDishById)
-adminRoutes.get('/dishes/all', AdminController.findAllDishes)
+adminRoutes.get('/dishes', AdminController.findAllDishes)
 adminRoutes.put('/dishes/:id', AdminController.updateDish)
 adminRoutes.delete('/dishes/:id', AdminController.deleteDish)
 

@@ -11,7 +11,7 @@ export class AdminController {
     }
 
     static async findDishById(req: Request, res: Response) {
-        const { id } = req.body;
+        const { id } = req.params;
 
         const dish = await Dish.findByPk(id);
         if (!dish) {
