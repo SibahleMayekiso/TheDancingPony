@@ -35,8 +35,13 @@ export class CustomerController {
             return res.status(404).json({ message: 'Dish not found' });
         }
 
-        const userRating = await Rating.create({ userId, dishId: id, rating })
+        const [userRating, isRatingCreated] = await Rating.upsert(
+            { userId, dishId: id, rating },
+            { returning: true }
+        );
 
-        res.json({ userRating });
+        isRatingCreated ?
+            res.json({ message: 'Rating created successfully', userRating }) :
+            res.json({ message: 'Rating updated successfully', userRating })
     }
 }
