@@ -1,13 +1,17 @@
 import { Request, Response } from "express";
-import { Dish } from '../models/Dish';
-import { Rating } from '../models/Rating';
-import { Op } from "sequelize";
+import { DishService } from "../services/DishService";
 
 export class CustomerController {
-    static async searchDishes(req: Request, res: Response) {
+    private _dishService: DishService;
+
+    constructor(dishService: DishService) {
+        this._dishService = dishService;
+    }
+
+    async searchDishes(req: Request, res: Response) {
         const query = req.params.query;
 
-        const dishes = await Dish.findAll({ where: { name: { [Op.iLike]: `%${query}%` } } });
+        const dishes = await this._dishService.searchDishes(query);
         if (!dishes) {
             res.status(404).json({ message: 'No Dishes found' });
         }
@@ -15,10 +19,10 @@ export class CustomerController {
         res.json({ dishes });
     }
 
-    static async findDishById(req: Request, res: Response) {
+    async findDishById(req: Request, res: Response) {
         const { id } = req.params;
 
-        const dish = await Dish.findByPk(id);
+        const dish = await this._dishService.findByPk(Number(id));
         if (!dish) {
             return res.status(404).json({ message: 'Dish not found' });
         }
@@ -26,22 +30,18 @@ export class CustomerController {
         res.json({ dish });
     }
 
-    static async rateDishById(req: Request, res: Response) {
+    async rateDishById(req: Request, res: Response) {
         const { id } = req.params;
         const { userId, rating } = req.body;
 
-        const dish = await Dish.findByPk(id);
-        if (!dish) {
+        const [userRating, isRatingCreated] = await this._dishService.rateDishById(userId, Number(id), rating);
+        if (!userRating) {
             return res.status(404).json({ message: 'Dish not found' });
         }
 
-        const [userRating, isRatingCreated] = await Rating.upsert(
-            { userId, dishId: id, rating },
-            { returning: true }
-        );
-
         isRatingCreated ?
             res.json({ message: 'Rating created successfully', userRating }) :
-            res.json({ message: 'Rating updated successfully', userRating })
+            res.json({ message: 'Rating updated successfully', userRating });
     }
+
 }

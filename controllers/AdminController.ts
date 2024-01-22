@@ -1,19 +1,25 @@
 import { Request, Response } from "express";
-import { Dish } from '../models/Dish'
+import { DishService } from "../services/DishService";
 
 export class AdminController {
-    static async createNewDish(req: Request, res: Response) {
+    private _dishService: DishService;
+
+    constructor(dishService: DishService) {
+        this._dishService = dishService;
+    }
+
+    async createNewDish(req: Request, res: Response) {
         const { name, description, price, image } = req.body;
 
-        const dish = await Dish.create({ name, description, price, image })
+        const dish = await this._dishService.createDish(name, description, price, image);
 
         res.json({ dish });
     }
 
-    static async findDishById(req: Request, res: Response) {
+    async findDishById(req: Request, res: Response) {
         const { id } = req.params;
 
-        const dish = await Dish.findByPk(id);
+        const dish = await this._dishService.findByPk(Number(id));
         if (!dish) {
             return res.status(404).json({ message: 'Dish not found' });
         }
@@ -21,8 +27,8 @@ export class AdminController {
         res.json({ dish });
     }
 
-    static async findAllDishes(req: Request, res: Response) {
-        const dishes = await Dish.findAll();
+    async findAllDishes(req: Request, res: Response) {
+        const dishes = await this._dishService.findAllDishes();
         if (!dishes) {
             res.status(404).json({ message: 'No Dishes found' });
         }
@@ -30,30 +36,26 @@ export class AdminController {
         res.json({ dishes });
     }
 
-    static async updateDish(req: Request, res: Response) {
+    async updateDish(req: Request, res: Response) {
         const { id } = req.params;
         const { name, description, price, image } = req.body;
 
-        const dish = await Dish.findByPk(id);
+        const dish = await this._dishService.updateDish(Number(id), name, description, price, image);
         if (!dish) {
             return res.status(404).json({ message: 'Dish not found' });
         }
-
-        await dish.update({ name, description, price, image });
 
         res.json({ dish });
     }
 
-    static async deleteDish(req: Request, res: Response) {
+    async deleteDish(req: Request, res: Response) {
         const { id } = req.params;
 
-        const dish = await Dish.findByPk(id);
-        if (!dish) {
-            return res.status(404).json({ message: 'Dish not found' });
+        const isDeleted = await this._dishService.deleteDish(Number(id));
+        if (!isDeleted) {
+            return res.status(404).json({ message: 'Could not delete Dish' });
         }
 
-        await dish.destroy();
-
-        res.json({ message: 'Dishe deleted successfully' });
+        res.json({ message: 'Dish deleted successfully' });
     }
 }
