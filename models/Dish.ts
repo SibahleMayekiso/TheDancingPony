@@ -1,6 +1,13 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../database/database";
 
+/**
+ * Dish model
+ *
+ * @export
+ * @class Dish
+ * @extends {Model}
+ */
 export class Dish extends Model {
     public id!: number;
     public name!: string;
@@ -9,6 +16,11 @@ export class Dish extends Model {
     public image!: string;
 }
 
+/**
+ * Initializes the Dish model.
+ *
+ * @export
+ */
 export function initDish() {
     Dish.init({
         id: {

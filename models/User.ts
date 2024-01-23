@@ -1,6 +1,13 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../database/database";
 
+/**
+ * User model
+ *
+ * @export
+ * @class User
+ * @extends {Model}
+ */
 export class User extends Model {
     public id!: number;
     public name!: string;
@@ -9,6 +16,11 @@ export class User extends Model {
     public role!: string;
 }
 
+/**
+ * Initializes the User model.
+ *
+ * @export
+ */
 export function initUser() {
     User.init({
         id: {

@@ -1,12 +1,24 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../database/database";
 
+/**
+ * Rating model
+ *
+ * @export
+ * @class Rating
+ * @extends {Model}
+ */
 export class Rating extends Model {
     public userId!: number;
     public dishId!: number;
     public rating!: number;
 }
 
+/**
+ * Initializes the Rating model.
+ *
+ * @export
+ */
 export function initRating() {
     Rating.init({
         userId: {
