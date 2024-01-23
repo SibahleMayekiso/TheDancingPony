@@ -2,7 +2,20 @@ import { Request, Response } from "express";
 import { User } from "../models/User";
 import jwt from "jsonwebtoken";
 
+/**
+ * Controller class for handling user-related operations.
+ *
+ * @export
+ * @class UserController
+ */
 export class UserController {
+    /**
+     * Registers a new user.
+     *
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     * @memberof UserController
+     */
     static async register(req: Request, res: Response) {
         const { name, email, password } = req.body;
 
@@ -18,6 +31,13 @@ export class UserController {
         res.json({ token });
     }
 
+    /**
+     * Logs in a user.
+     *
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     * @memberof UserController
+     */
     static async login(req: Request, res: Response) {
         const { email, password } = req.body;
 
