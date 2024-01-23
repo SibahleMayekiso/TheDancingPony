@@ -5,6 +5,13 @@ import { User } from "../models/User";
 import { JwtPayload } from "./jwt-payload";
 
 
+/**
+ * Checks if a user is authenticated.
+ *
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ * @param {NextFunction} next - The next function.
+ */
 export function checkAuthentication(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
@@ -24,6 +31,13 @@ export function checkAuthentication(req: Request, res: Response, next: NextFunct
     }
 }
 
+/**
+ * Checks if a user is authenticated and based on their role.
+ *
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ * @param {NextFunction} next - The next function.
+ */
 export function checkAuthorization(role: string) {
     return async (req: Request, res: Response, next: NextFunction) => {
         const user = await User.findByPk(req.userPayload.userId);
