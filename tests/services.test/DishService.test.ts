@@ -70,8 +70,6 @@ describe('DishService', () => {
             };
 
             Dish.findByPk = jest.fn().mockResolvedValue(mockDish);
-            // mockDish.update = jest.fn().mockResolvedValue(mockDish);
-
             const expected = mockDish;
 
             //Act
@@ -79,7 +77,6 @@ describe('DishService', () => {
 
             //Assert
             expect(Dish.findByPk).toHaveBeenCalledWith(mockDish.id);
-            // expect(mockDish.update).toHaveBeenCalledWith({ name: mockDish.name, description: mockDish.description, price: mockDish.price, image: mockDish.image });
             expect(actual).toEqual(expected);
         });
 
